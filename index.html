@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+
+<body>
+  <style>
+    @font-face {
+      font-family: 'digital-clock-font';
+      src: url('DS-DIGIT.TTF');
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      /*CENTRARE UN ELEMENTO IN UN BOX*/
+      display: flex;
+      width: 100%;
+      min-height: 100dvh;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+    }
+
+    div {
+      background-color: black;
+      color: white;
+      font-family: "digital-clock-font";
+      font-size: 20px;
+      border: black 10px;
+      padding: 20px 20px 20px 20px;
+      text-align: center;
+      display: inline-block;
+      border-radius: 12px;
+      box-shadow: 10px 10px 5px rgb(82, 81, 81);
+      max-width: 429px;
+      overflow: hidden;
+
+
+    }
+
+    .my-button {
+      background-color: grey;
+      border: black 2px;
+      color: white;
+      width: 50px;
+      height: 50px;
+      padding: 20px 20px 20px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 30px;
+      box-shadow: 3px 3px 2px rgb(82, 81, 81);
+    }
+
+    .my-button:hover {
+      background-color: darkgrey;
+    }
+
+    .my-button:active {
+      background-color: black;
+    }
+
+    .result {
+      background-color: rgb(181, 177, 177);
+      border: black 20px;
+      color: rgb(0, 0, 0);
+      width: 205px;
+      height: 50px;
+      font-family: "digital-clock-font";
+      font-size: 45px;
+      padding: 10px 10px;
+      text-align: right;
+      text-decoration: none;
+      display: inline-block;
+      margin: 4px 2px;
+      border-radius: 12px;
+      box-shadow: 3px 3px 2px rgb(82, 81, 81);
+    }
+
+    .uguale {
+      background-color: rgb(12, 226, 8);
+      border: black 2px;
+      color: white;
+      width: 50px;
+      height: 50px;
+      padding: 20px 20px 20px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background-color 0.3s;
+      box-shadow: 3px 3px 2px rgb(4, 92, 3);
+
+    }
+
+    .uguale:hover {
+      background-color: green;
+      /* cambia colore al passaggio del mouse */
+    }
+
+    .uguale:active {
+      background-color: rgb(26, 235, 7);
+      /*cambia colore quando clicco*/
+    }
+
+    .operator {
+      background-color: rgb(44, 43, 43);
+      border: black 2px;
+      color: white;
+      width: 50px;
+      height: 50px;
+      padding: 20px 20px 20px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 3px 3px 2px rgb(82, 81, 81);
+    }
+
+    .operator:hover {
+      background-color: darkgoldenrod;
+      /* cambia colore al passaggio del mouse */
+    }
+
+    .operator:active {
+      background-color: rgb(241, 241, 0);
+      /* cambia colore al passaggio del mouse */
+    }
+
+    .clear {
+      background-color: rgb(188, 8, 8);
+      border: black 2px;
+      color: white;
+      width: 50px;
+      height: 50px;
+      padding: 20px 20px 20px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 3px 3px 2px rgb(129, 6, 6);
+      font-style: oblique;
+    }
+
+    .clear:hover {
+      background-color: rgb(235, 96, 96);
+    }
+
+    .clear:active {
+      background-color: rgb(8, 0, 241);
+    }
+
+    .cancella {
+      background-color: rgb(228, 120, 12);
+      border: black 2px;
+      color: white;
+      width: 50px;
+      height: 50px;
+      padding: 20px 20px 20px 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 3px 3px 2px rgb(129, 6, 6);
+      font-style: oblique;
+    }
+
+    .cancella:hover {
+      background-color: rgb(231, 167, 70);
+    }
+
+    .cancella:active {
+      background-color: rgb(8, 0, 241);
+    }
+
+    #errorVideo {
+      max-width: 429px;
+      width: 100%;
+    }
+  </style>
+
+  </head>
+
+  <body>
+    <div> Calcolatrice - AP
+      <br>
+      <br>
+      <input type=text id="display" class="result" value="" readonly="readonly">
+      <br>
+      <input type=button id="cancella" class="clear" value="C" onclick="clearScreen()">
+      <input type=button id="parentesi" class="cancella" value="⬅" onclick="cancella()">
+      <input type=button id="percentuale" class="operator" value="%" onclick="percentuale()" disabled>
+      <input type=button id="dividi" class="operator" value="/" onclick="dig('/')">
+      <br>
+      <input type=button id="seven" class="my-button" value="7" onclick="dig(7)">
+      <input type=button id="eight" class="my-button" value="8" onclick="dig(8)">
+      <input type=button id="nine" class="my-button" value="9" onclick="dig(9)">
+      <input type=button id="moltiplica" class="operator" value="X" onclick="dig('*')">
+      <br>
+      <input type=button id="four" class="my-button" value="4" onclick="dig(4)">
+      <input type=button id="five" class="my-button" value="5" onclick="dig(5)">
+      <input type=button id="six" class="my-button" value="6" onclick="dig(6)">
+      <input type=button id="sottrai" class="operator" value="-" onclick="dig('-')">
+      <br>
+      <input type=button id="one" class="my-button" value="1" onclick="dig(1)">
+      <input type=button id="two" class="my-button" value="2" onclick="dig(2)">
+      <input type=button id="three" class="my-button" value="3" onclick="dig(3)">
+      <input type=button id="somma" class="operator" value="+" onclick="dig('+')">
+      <br>
+      <input type=button id="plus/minus" class="my-button" value="+/-" onclick="toggleSign()">
+      <input type=button id="zero" class="my-button" value="0" onclick="dig(0)">
+      <input type=button id="virgola" class="my-button" value="." onclick="dig('.')">
+
+      <input type=button id="symbUguale" class="uguale" value="=" onclick="ris()">
+
+      <video id="errorVideo" controls style="display: none;">
+        <source src="Error-video.mp4" type="video/mp4">
+        Il tuo browser non supporta il video tag.
+      </video>
+
+    </div>
+
+    <script>
+      let result = document.getElementById("display");
+      let operators = document.querySelectorAll('.operator');
+      let lastInputWasOperator = false;                                   //chiedi a nico riguardo a questa variabile "lastInputWasOperator"
+      let errorSound = new Audio("error-sound.mp3");
+      let errorVideo = document.getElementById('errorVideo');
+
+      // Funzione per disabilitare tutti gli operatori
+      function disableOperators() {
+        operators.forEach(operator => {
+          operator.disabled = true;
+        });
+      }
+
+      // Funzione per abilitare tutti gli operatori
+      function enableOperators() {
+        operators.forEach(operator => {
+          operator.disabled = false;
+        });
+      }
+
+      // Funzione che si attiva quando si clicca un numero
+      function numberClicked(n) {
+        result.value = result.value + n;
+        if (lastInputWasOperator) {
+          enableOperators();  // Riabilita gli operatori quando viene cliccato un numero
+          lastInputWasOperator = false;  // Ripristina lo stato
+        }
+      }
+
+      // Funzione che si attiva quando si clicca un operatore
+      function operatorClicked(operator) {
+        if (result.value !== '' && !lastInputWasOperator) {
+          result.value = result.value + operator;
+          disableOperators();  // Disabilita gli operatori dopo aver premuto un operatore
+          lastInputWasOperator = true;  // Imposta lo stato che l'ultimo input è stato un operatore
+        }
+      }
+
+      // Funzione per abilitare gli operatori solo quando un numero è stato inserito
+      function enableAfterNumber() {
+        if (result.value && !isNaN(result.value[result.value.length - 1])) {
+          enableOperators();
+        }
+      }
+
+      // Pulisce lo schermo e disabilita gli operatori
+      function clearScreen() {
+        result.value = "";
+        disableOperators();
+        stopVideo();  // Ferma il video se è in riproduzione
+      }
+
+      function dig(n) {
+        if (typeof n === 'number') {
+          result.value += n;
+          enableOperators();
+          lastInputWasOperator = false;
+        } else {
+          if (result.value && !lastInputWasOperator) {
+            result.value += n;
+            disableOperators();
+            lastInputWasOperator = true;
+          }
+        }
+      }
+
+      // Calcola il risultato 
+      function ris() {
+        let c = result.value;
+        if (c) {
+          try {
+            let evaluation = eval(c);
+            // Verifica se il risultato è "Infinity" o "-Infinity"
+            if (evaluation === Infinity || evaluation === -Infinity) {
+              result.value = "Error";  // Mostra "Error" se il risultato è infinito
+              errorSound.play();
+              errorVideo.style.display = 'block';  // Mostra il video
+              errorVideo.play();  // Riproduce il video
+            } else {
+              result.value = evaluation;  // Altrimenti mostra il risultato
+            }
+            lastInputWasOperator = false;  // Permette l'inserimento di un numero dopo il risultato
+          } catch (e) {
+            result.value = "Error";
+            errorSound.play();
+            errorVideo.style.display = 'block';  // Mostra il video
+            errorVideo.play();  // Riproduce il video
+          }
+        }
+      }
+
+      // Rimuove l'ultimo carattere dal display
+      function cancella() {
+        let a = result.value;
+        result.value = a.substring(0, a.length - 1);  // Rimuove l'ultimo carattere
+
+        // Verifica se l'ultimo carattere nel display è un numero
+        if (result.value === '' || !isNaN(result.value[result.value.length - 1])) {
+          enableOperators();  // Abilita gli operatori se l'ultimo carattere è un numero o se il display è vuoto
+          lastInputWasOperator = false;
+        } else {
+          disableOperators();  // Disabilita gli operatori se l'ultimo carattere è un operatore
+          lastInputWasOperator = true;
+        }
+      }
+
+      // Funzione per cambiare il segno del numero
+      function toggleSign() {
+        if (result.value) {
+          result.value = result.value.startsWith('-')
+            ? result.value.slice(1)
+            : '-' + result.value;
+        }
+      }
+
+      // Calcola la percentuale
+      function percentuale() {
+        let currentValue = result.value;
+        if (currentValue) {
+          // Calcola la percentuale dividendo il valore per 100
+          result.value = (parseFloat(currentValue) / 100).toString();
+          disableOperators();  // Disabilita gli operatori dopo aver calcolato la percentuale
+        }
+      }
+
+      // Inizializzazione: Disabilita gli operatori finché non viene inserito un numero
+      disableOperators();
+
+      function stopVideo() {
+        errorVideo.pause();  // Ferma il video
+        errorVideo.currentTime = 0;  // Riavvolge il video all'inizio
+        errorVideo.style.display = 'none';  // Nasconde il video
+      }
+    </script>
+  </body>
+
+</html>
